@@ -31,8 +31,14 @@ string idx_to_coord(int idx){
 }
 
 int main(int argc, char* argv[]){
+    cerr << "[I] Nats Othello AI" << endl;
+    cerr << "[I] (c) 2022 Takuto Yamana" << endl;
     int mid_depth = 4, end_depth = 8;
-    if (argc == 2){
+    if (argc == 1){
+        cerr << "[I] usage" << endl;
+        cerr << "[I] [executable] [midgame depth] [endgame depth]" << endl;
+        cerr << "[i] use default depth" << endl;
+    } else if (argc == 2){
         mid_depth = atoi(argv[1]);
         end_depth = mid_depth * 2;
     } else if (argc == 3){
@@ -40,11 +46,11 @@ int main(int argc, char* argv[]){
         end_depth = atoi(argv[2]);
     }
     if (mid_depth <= 0 || end_depth < 0){
+        cerr << "[I] usage" << endl;
+        cerr << "[I] [executable] [midgame depth] [endgame depth]" << endl;
         cerr << "[E] illegal depth" << endl;
         return 1;
     }
-    cerr << "[I] Nats Othello AI" << endl;
-    cerr << "[I] (c) 2022 Takuto Yamana" << endl;
     cerr << "[I] depth mid:" << mid_depth << " end:" << end_depth << endl;
     bit_init();
     flip_init();

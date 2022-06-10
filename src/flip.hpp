@@ -1,12 +1,7 @@
 ﻿#pragma once
 #include <iostream>
-#include "setting.hpp"
 #include "common.hpp"
-#if USE_SIMD
-    #include "bit.hpp"
-#else
-    #include "bit_simd_free.hpp"
-#endif
+#include "bit.hpp"
 
 using namespace std;
 
@@ -51,16 +46,11 @@ class Flip{
     public:
         uint_fast8_t pos;
         uint64_t flip;
-        int32_t value;
-        uint64_t n_legal;
-		int stab0;
-		int stab1;
     
     public:
         inline void copy(Flip *mob) const{
             mob->pos = pos;
             mob->flip = flip;
-            mob->value = value;
         }
 
         inline void calc_flip(const uint64_t player, const uint64_t opponent, const uint_fast8_t place){
@@ -114,7 +104,7 @@ inline int_fast8_t count_last_flip(uint64_t player, uint64_t opponent, const uin
 
 void flip_init(){
     uint_fast16_t player, opponent, place;
-    uint_fast8_t wh, put, m1, m2, m3, m4, m5, m6, i;
+    uint_fast8_t wh, put, m1, m2, m3, m4, m5, m6;
     for (player = 0; player < N_8BIT; ++player){
         for (opponent = 0; opponent < N_8BIT; ++opponent){
             for (place = 0; place < HW; ++place){

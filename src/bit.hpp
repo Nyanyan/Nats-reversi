@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include <iostream>
 #include "common.hpp"
-#include "setting.hpp"
 
 using namespace std;
 
@@ -120,6 +119,106 @@ inline uint64_t horizontal_mirror(uint64_t x){
     x = ((x >> 1) & 0x5555555555555555ULL) | ((x << 1) & 0xAAAAAAAAAAAAAAAAULL);
     x = ((x >> 2) & 0x3333333333333333ULL) | ((x << 2) & 0xCCCCCCCCCCCCCCCCULL);
     return ((x >> 4) & 0x0F0F0F0F0F0F0F0FULL) | ((x << 4) & 0xF0F0F0F0F0F0F0F0ULL);
+}
+
+// direction is couner clockwise
+inline uint64_t rotate_90(uint64_t x){
+    return vertical_mirror(white_line_mirror(x));
+}
+
+// direction is couner clockwise
+inline uint64_t rotate_270(uint64_t x){
+    return vertical_mirror(black_line_mirror(x));
+}
+
+inline uint8_t rotate_180_uchar(uint8_t x){
+    x = ((x & 0x55U) << 1) | ((x & 0xAAU) >> 1);
+    x = ((x & 0x33U) << 2) | ((x & 0xCCU) >> 2);
+    return ((x & 0x0FU) << 4) | ((x & 0xF0U) >> 4);
+}
+
+inline uint64_t rotate_180(uint64_t x){
+    x = ((x & 0x5555555555555555ULL) << 1) | ((x & 0xAAAAAAAAAAAAAAAAULL) >> 1);
+    x = ((x & 0x3333333333333333ULL) << 2) | ((x & 0xCCCCCCCCCCCCCCCCULL) >> 2);
+    x = ((x & 0x0F0F0F0F0F0F0F0FULL) << 4) | ((x & 0xF0F0F0F0F0F0F0F0ULL) >> 4);
+    x = ((x & 0x00FF00FF00FF00FFULL) << 8) | ((x & 0xFF00FF00FF00FF00ULL) >> 8);
+    x = ((x & 0x0000FFFF0000FFFFULL) << 16) | ((x & 0xFFFF0000FFFF0000ULL) >> 16);
+    return ((x & 0x00000000FFFFFFFFULL) << 32) | ((x & 0xFFFFFFFF00000000ULL) >> 32);
+}
+
+// rotate 45 degrees counter clockwise
+/*
+      8  7  6  5  4  3  2  1
+      9  8  7  6  5  4  3  2
+     10  9  8  7  6  5  4  3
+     11 10  9  8  7  6  5  4
+     12 11 10  9  8  7  6  5
+     13 12 11 10  9  8  7  6
+     14 13 12 11 10  9  8  7
+     15 14 13 12 11 10  9  8
+    
+    to
+
+     14 14  6  6  6  6  6  6
+     13 13 13  5  5  5  5  5
+     12 12 12 12  4  4  4  4
+     11 11 11 11 11  3  3  3
+     10 10 10 10 10 10  2  2
+      9  9  9  9  9  9  9  1
+      8  8  8  8  8  8  8  8
+     15  7  7  7  7  7  7  7
+*/
+inline uint64_t rotate_45(uint64_t x){
+    uint64_t a = (x ^ (x >> 8)) & 0x0055005500550055ULL;
+    x = x ^ a ^ (a << 8);
+    a = (x ^ (x >> 16)) & 0x0000CC660000CC66ULL;
+    x = x ^ a ^ (a << 16);
+    a = (x ^ (x >> 32)) & 0x00000000C3E1F078ULL;
+    return x ^ a ^ (a << 32);
+}
+
+// unrotate 45 degrees counter clockwise
+inline uint64_t unrotate_45(uint64_t x){
+    uint64_t a = (x ^ (x >> 32)) & 0x00000000C3E1F078ULL;
+    x = x ^ a ^ (a << 32);
+    a = (x ^ (x >> 16)) & 0x0000CC660000CC66ULL;
+    x = x ^ a ^ (a << 16);
+    a = (x ^ (x >> 8)) & 0x0055005500550055ULL;
+    return x ^ a ^ (a << 8);
+}
+
+inline uint64_t rotate_225(uint64_t x){
+    return rotate_45(rotate_180(x));
+}
+
+inline uint64_t unrotate_225(uint64_t x){
+    return rotate_180(unrotate_45(x));
+}
+
+inline uint64_t rotate_135(uint64_t x){
+    uint64_t a = (x ^ (x >> 8)) & 0x00AA00AA00AA00AAULL;
+    x = x ^ a ^ (a << 8);
+    a = (x ^ (x >> 16)) & 0x0000336600003366ULL;
+    x = x ^ a ^ (a << 16);
+    a = (x ^ (x >> 32)) & 0x00000000C3870F1EULL;
+    return x ^ a ^ (a << 32);
+}
+
+inline uint64_t unrotate_135(uint64_t x){
+    uint64_t a = (x ^ (x >> 32)) & 0x00000000C3870F1EULL;
+    x = x ^ a ^ (a << 32);
+    a = (x ^ (x >> 16)) & 0x0000336600003366ULL;
+    x = x ^ a ^ (a << 16);
+    a = (x ^ (x >> 8)) & 0x00AA00AA00AA00AAULL;
+    return x ^ a ^ (a << 8);
+}
+
+inline uint64_t rotate_315(uint64_t x){
+    return rotate_135(rotate_180(x));
+}
+
+inline uint64_t unrotate_315(uint64_t x){
+    return rotate_180(unrotate_135(x));
 }
 
 inline uint_fast8_t ntz(uint64_t *x){

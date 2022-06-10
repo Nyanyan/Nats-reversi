@@ -45,7 +45,7 @@ int main(int argc, char* argv[]){
         mid_depth = atoi(argv[1]);
         end_depth = atoi(argv[2]);
     }
-    if (mid_depth <= 0 || end_depth < 0){
+    if (mid_depth <= 0 || end_depth <= 0){
         cerr << "[I] usage" << endl;
         cerr << "[I] [executable] [midgame depth] [endgame depth]" << endl;
         cerr << "[E] illegal depth" << endl;
@@ -63,7 +63,10 @@ int main(int argc, char* argv[]){
         strt = tim();
         search_result = ai(board, mid_depth, end_depth);
         cerr << "[I] time elapsed " << tim() - strt << " ms" << endl;
-        cout << idx_to_coord(search_result.policy) << " " << search_result.value << endl;
+        if (search_result.policy != POLICY_UNDEFINED)
+            cout << idx_to_coord(search_result.policy) << " " << search_result.value << endl;
+        else
+            cout << "ERROR" << endl;
     }
     return 0;
 }

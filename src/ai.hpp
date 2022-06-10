@@ -16,6 +16,7 @@ Search_result ai_mid(Board board, int depth){
     Search_result res;
     uint64_t legal = board.get_legal();
     if (legal == 0ULL){
+        cerr << "[E] no move available" << endl;
         res.policy = POLICY_UNDEFINED;
         res.value = SCORE_UNDEFINED;
         return res;
@@ -40,6 +41,7 @@ Search_result ai_end(Board board){
     Search_result res;
     uint64_t legal = board.get_legal();
     if (legal == 0ULL){
+        cerr << "[E] no move available" << endl;
         res.policy = POLICY_UNDEFINED;
         res.value = SCORE_UNDEFINED;
         return res;

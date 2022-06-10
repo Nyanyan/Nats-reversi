@@ -16,6 +16,8 @@ class Board {
     public:
         inline void print() const{
             for (int i = HW2_M1; i >= 0; --i){
+                if (i % HW == HW_M1)
+                    cerr << "[I] ";
                 if (1 & (player >> i))
                     cerr << "X ";
                 else if (1 & (opponent >> i))

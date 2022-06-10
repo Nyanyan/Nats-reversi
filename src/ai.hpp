@@ -62,9 +62,9 @@ Search_result ai_end(Board board){
 
 Search_result ai(Board board, int mid_depth, int end_depth){
     if (board.n + end_depth >= HW2){
-        cerr << "[I] endgame" << endl;
+        cerr << "[I] endgame depth " << HW2 - board.n << endl;
         return ai_end(board);
     }
-    cerr << "[I] midgame" << endl;
+    cerr << "[I] midgame depth " << mid_depth << endl;
     return ai_mid(board, mid_depth);
 }

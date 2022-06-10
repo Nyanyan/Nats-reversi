@@ -15,14 +15,10 @@ using namespace std;
 
 #define N_8BIT 256
 #define N_DIAG_LINE 11
-#define N_DIAG_LINE_M1 10
 
 #define BLACK 0
 #define WHITE 1
 #define VACANT 2
-
-#define N_PHASES 30
-#define PHASE_N_STONES 2
 
 #define INF 100000000
 

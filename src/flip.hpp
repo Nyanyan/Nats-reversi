@@ -33,14 +33,14 @@ class Flip{
             o = join_v_line(opponent, u);
             flip |= split_v_lines[flip_pre_calc[p][o][t]] << u;
             if (u + t >= 2 && u + t <= 12){
-                p = join_d7_line(player, u + t);
-                o = join_d7_line(opponent, u + t);
-                flip |= split_d7_lines[flip_pre_calc[p][o][HW_M1 - t]][u + t - 2];
+                p = join_d7_line(player, u + t) & d7_mask[place];
+                o = join_d7_line(opponent, u + t) & d7_mask[place];
+                flip |= split_d7_lines[flip_pre_calc[p][o][HW_M1 - t] & d7_mask[place]][u + t - 2];
             }
             if (u - t >= -5 && u - t <= 5){
-                p = join_d9_line(player, u - t);
-                o = join_d9_line(opponent, u - t);
-                flip |= split_d9_lines[flip_pre_calc[p][o][t]][u - t + 5];
+                p = join_d9_line(player, u - t) & d9_mask[place];
+                o = join_d9_line(opponent, u - t) & d9_mask[place];
+                flip |= split_d9_lines[flip_pre_calc[p][o][t] & d9_mask[place]][u - t + 5];
             }
         }
 };

@@ -43,14 +43,20 @@ int main(int argc, char* argv[]){
         cerr << "[E] illegal depth" << endl;
         return 1;
     }
-    cerr << "Nats Othello AI" << endl;
-    cerr << "(c) 2022 Takuto Yamana" << endl;
+    cerr << "[I] Nats Othello AI" << endl;
+    cerr << "[I] (c) 2022 Takuto Yamana" << endl;
     cerr << "[I] depth mid:" << mid_depth << " end:" << end_depth << endl;
+    bit_init();
+    flip_init();
+    cerr << "[I] initialized" << endl;
     Board board;
     Search_result search_result;
+    uint64_t strt;
     while (true){
         board = input_board();
+        strt = tim();
         search_result = ai(board, mid_depth, end_depth);
+        cerr << "[I] time elapsed " << tim() - strt << " ms" << endl;
         cout << idx_to_coord(search_result.policy) << " " << search_result.value << endl;
     }
     return 0;

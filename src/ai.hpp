@@ -49,6 +49,8 @@ Search_result ai_end(Board board){
     for (uint_fast8_t cell = first_bit(&legal); legal; cell = next_bit(&legal)){
         board.calc_flip(&flip, cell);
         board.move(&flip);
+            cerr << (int)cell << endl;
+            board.print();
             g = -nega_alpha_end(&board, -beta, -alpha, false);
         board.undo(&flip);
         if (alpha < g){

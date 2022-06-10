@@ -20,7 +20,7 @@ int nega_alpha_mid(Board *board, int alpha, int beta, int depth, bool passed){
     }
     Flip flip;
     for (uint_fast8_t cell = first_bit(&legal); legal; cell = next_bit(&legal)){
-        calc_flip(&flip, board, cell);
+        board->calc_flip(&flip, cell);
         board->move(&flip);
             g = -nega_alpha_mid(board, -beta, -alpha, depth - 1, false);
         board->undo(&flip);
@@ -47,7 +47,7 @@ int nega_alpha_end(Board *board, int alpha, int beta, bool passed){
     }
     Flip flip;
     for (uint_fast8_t cell = first_bit(&legal); legal; cell = next_bit(&legal)){
-        calc_flip(&flip, board, cell);
+        board->calc_flip(&flip, cell);
         board->move(&flip);
             g = -nega_alpha_end(board, -beta, -alpha, false);
         board->undo(&flip);

@@ -14,26 +14,6 @@ class Board {
         uint_fast8_t parity;
 
     public:
-        int operator == (Board a) {
-            return player == a.player && opponent == a.opponent;
-        }
-        
-        inline Board copy(){
-            Board res;
-            res.player = player;
-            res.opponent = opponent;
-            res.n = n;
-            res.parity = parity;
-            return res;
-        }
-
-        inline void copy(Board *res){
-            res->player = player;
-            res->opponent = opponent;
-            res->n = n;
-            res->parity = parity;
-        }
-
         inline void print() const{
             for (int i = HW2_M1; i >= 0; --i){
                 if (1 & (player >> i))
@@ -59,19 +39,6 @@ class Board {
             ++n;
         }
 
-        inline void move_copy(const Flip *flip, Board *res) {
-            res->opponent = player ^ flip->flip;
-            res->player = opponent ^ flip->flip;
-            res->opponent ^= 1ULL << flip->pos;
-            res->n = n + 1;
-        }
-
-        inline Board move_copy(const Flip *flip) {
-            Board res;
-            move_copy(flip, &res);
-            return res;
-        }
-
         inline void pass(){
             swap(player, opponent);
         }
@@ -93,14 +60,10 @@ class Board {
                 score -= vacant_score;
             return score;
         }
+
+        inline void calc_flip(Flip *flip, const uint_fast8_t policy){
+            flip->calc_flip(player, opponent, policy);
+        }
 };
 
-inline void calc_flip(Flip *flip, const Board *b, const uint_fast8_t policy){
-    flip->calc_flip(b->player, b->opponent, policy);
-}
 
-inline Flip calc_flip(const Board *b, const uint_fast8_t policy){
-    Flip flip;
-    flip.calc_flip(b->player, b->opponent, policy);
-    return flip;
-}

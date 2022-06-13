@@ -97,7 +97,7 @@ inline uint64_t white_line_mirror(uint64_t x){
     a = (x ^ (x >> 14)) & 0x0000CCCC0000CCCCULL;
     x = x ^ a ^ (a << 14);
     a = (x ^ (x >> 28)) & 0x00000000F0F0F0F0ULL;
-    return x = x ^ a ^ (a << 28);
+    return x ^ a ^ (a << 28);
 }
 
 inline uint64_t black_line_mirror(uint64_t x){
@@ -106,7 +106,7 @@ inline uint64_t black_line_mirror(uint64_t x){
     a = (x ^ (x >> 18)) & 0x0000333300003333ULL;
     x = x ^ a ^ (a << 18);
     a = (x ^ (x >> 36)) & 0x000000000F0F0F0FULL;
-    return x = x ^ a ^ (a << 36);
+    return x ^ a ^ (a << 36);
 }
 
 inline uint64_t vertical_mirror(uint64_t x){

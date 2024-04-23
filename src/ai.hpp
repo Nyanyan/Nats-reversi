@@ -21,7 +21,7 @@ Search_result ai_mid(Board board, int depth){
         res.value = SCORE_UNDEFINED;
         return res;
     }
-    int alpha = -MID_SCORE_MAX, beta = MID_SCORE_MAX, g;
+    int alpha = -SCORE_MAX, beta = SCORE_MAX, g;
     Flip flip;
     for (uint_fast8_t cell = first_bit(&legal); legal; cell = next_bit(&legal)){
         board.calc_flip(&flip, cell);
@@ -46,7 +46,7 @@ Search_result ai_end(Board board){
         res.value = SCORE_UNDEFINED;
         return res;
     }
-    int alpha = -END_SCORE_MAX - 1, beta = END_SCORE_MAX, g;
+    int alpha = -SCORE_MAX - 1, beta = SCORE_MAX, g;
     Flip flip;
     for (uint_fast8_t cell = first_bit(&legal); legal; cell = next_bit(&legal)){
         board.calc_flip(&flip, cell);

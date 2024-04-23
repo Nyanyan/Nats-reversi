@@ -4,21 +4,30 @@
 
 using namespace std;
 
-#define MID_SCORE_MAX INF
-#define END_SCORE_MAX HW2
+#define SCORE_MAX HW2
 
 #define MID_END_WEIGHT 1000
 
-// from https://uguisu.skr.jp/othello/5-1.html
-#define N_WEIGHT 6
-constexpr int cell_weight_score[N_WEIGHT] = {30, -12, 0, -1, -3, -15};
+// This evaluation weight was created by Takuto Yamana (Nyanyan)
+// The evaluation value is fit by 256 * final score.
+#define N_WEIGHT 10
+constexpr int cell_weight_score[N_WEIGHT] = {
+    2714,  147,   69,  -18,
+          -577, -186, -153,
+                -379, -122,
+                      -169
+};
 constexpr uint64_t cell_weight_mask[N_WEIGHT] = {
-    0b10000001'00000000'00000000'00000000'00000000'00000000'00000000'10000001ULL,
-    0b01000010'10000001'00000000'00000000'00000000'00000000'10000001'01000010ULL,
-    0b00100100'00000000'10100101'00000000'00000000'10100101'00000000'00100100ULL,
-    0b00011000'00000000'00011000'10111101'10111101'00011000'00000000'00011000ULL,
-    0b00000000'00111100'01000010'01000010'01000010'01000010'00111100'00000000ULL,
-    0b00000000'01000010'00000000'00000000'00000000'00000000'01000010'00000000ULL
+    0x8100000000000081ULL,
+    0x4281000000008142ULL,
+    0x2400810000810024ULL,
+    0x1800008181000018ULL,
+    0x0042000000004200ULL,
+    0x0024420000422400ULL,
+    0x0018004242001800ULL,
+    0x0000240000240000ULL,
+    0x0000182424180000ULL,
+    0x0000001818000000ULL
 };
 
 inline int evaluate_one_player(uint64_t player){
@@ -29,5 +38,12 @@ inline int evaluate_one_player(uint64_t player){
 }
 
 inline int evaluate(Board *board){
-    return evaluate_one_player(board->player) - evaluate_one_player(board->opponent);
+    int value = evaluate_one_player(board->player) - evaluate_one_player(board->opponent);
+    value += value >= 0 ? 128 : -128;
+    value /= 256;
+    if (value > SCORE_MAX)
+        value = SCORE_MAX;
+    else if (value < -SCORE_MAX)
+        value = -SCORE_MAX;
+    return value;
 }

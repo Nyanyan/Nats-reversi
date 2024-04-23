@@ -55,6 +55,9 @@ int main(int argc, char* argv[]){
     bit_init();
     flip_init();
     cerr << "[I] initialized" << endl;
+    cerr << "[I] input [board as 64 characters][side to move]" << endl;
+    cerr << "[I] example: ---------------------------OX------XO---------------------------X" << endl;
+    cerr << "> ";
     Board board;
     Search_result search_result;
     uint64_t strt;

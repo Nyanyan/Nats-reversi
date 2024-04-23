@@ -125,7 +125,7 @@ c5 0
 
 ```evaluate.hpp```に記述してあります。
 
-<img src="image/cell_weight.png" alt="cell_weight" style="zoom: 10%;" />
+![cell_weight](image/cell_weight.jpg)
 
 ## 探索の詳細
 

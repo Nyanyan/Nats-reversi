@@ -52,14 +52,17 @@ $ nats.out [中盤読み深さ] [終盤読み深さ]
 
 読み深さに0以下の値を入れるとエラーとなります。
 
-例として、中盤7手、終盤14手読みで実行すると以下のような表示になります。**参考情報の出力は全て標準エラー出力です**
+例として、中盤7手、終盤14手読みで実行すると以下のような表示になります。**参考情報の出力、および入力受付の"> "は全て標準エラー出力です**
 
 ```
 $ nats.out 7 14
 [I] Nats Othello AI
-[I] (c) 2022 Takuto Yamana
+[I] (c) 2022-2024 Takuto Yamana
 [I] depth mid:7 end:14
 [I] initialized
+[I] input [board as 64 characters][side to move]
+[I] example: ---------------------------OX------XO---------------------------X
+> 
 ```
 
 ### 入力
@@ -95,11 +98,13 @@ Natsの入力形式の概要は以下です。入力は任意の場所にスペ�
 ```
 $ nats.out 7 14
 [I] Nats Othello AI
-[I] (c) 2022 Takuto Yamana
+[I] (c) 2022-2024 Takuto Yamana
 [I] depth mid:7 end:14
 [I] initialized
-...........................OX......OXX.....O....................X
-[I] . . . . . . . . 
+[I] input [board as 64 characters][side to move]
+[I] example: ---------------------------OX------XO---------------------------X
+> ...........................OX......OXX.....O....................X
+[I] . . . . . . . .
 [I] . . . . . . . .
 [I] . . . . . . . .
 [I] . . . O X . . .
@@ -109,22 +114,18 @@ $ nats.out 7 14
 [I] . . . . . . . .
 [I] midgame depth 7
 [I] time elapsed 1 ms
-c4 -1
+c5 0
 ```
 
 
 
 ## 評価関数の詳細
 
-以下のサイトの「より洗練された重み付けの方法」の項目にある重みを使っています。
+マスによる重みを使った評価関数を作りました。評価値は最終石差の予想値です。重みは以下の図の通りです。作者による独自の重みで、[Siv3DサンプルのオセロAI](https://github.com/Siv3D/Siv3D-Samples/tree/main/Samples/SimpleOthelloAI)(Natsと作者が同じ)と同じ評価関数です。
 
-https://uguisu.skr.jp/othello/5-1.html
+```evaluate.hpp```に記述してあります。
 
-評価関数の詳細は```evaluate.hpp```に記述してあります。
-
-中盤探索ではこの重みをそのまま評価値としていますが、終盤探索では最終石差を評価値としています。なお、中盤探索中に終局してしまった場合には、最終石差の1000倍が評価値となります。
-
-
+<img src="image/cell_weight.png" alt="cell_weight" style="zoom: 10%;" />
 
 ## 探索の詳細
 

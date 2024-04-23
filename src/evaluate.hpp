@@ -6,8 +6,6 @@ using namespace std;
 
 #define SCORE_MAX HW2
 
-#define MID_END_WEIGHT 1000
-
 // This evaluation weight was created by Takuto Yamana (Nyanyan)
 // The evaluation value is fit by 256 * final score.
 #define N_WEIGHT 10

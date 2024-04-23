@@ -12,7 +12,7 @@ int nega_alpha_mid(Board *board, int alpha, int beta, int depth, bool passed){
     int v = -INF, g;
     if (legal == 0ULL){
         if (passed)
-            return board->score() * MID_END_WEIGHT;
+            return board->score();
         board->pass();
             v = -nega_alpha_mid(board, -beta, -alpha, depth, true);
         board->pass();
